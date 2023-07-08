@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public record Pessoa(String nome, int idade) {}
+public record Pessoa(String nome, int idade, String cpf) {}
 
 public class CadastroPessoas {
     public static void main(String[] args) {
@@ -25,7 +25,16 @@ public class CadastroPessoas {
                 System.out.print("Idade: ");
                 int idade = scanner.nextInt();
 
-                Pessoa pessoa = new Pessoa(nome, idade);
+                System.out.print("CPF: ");
+                String cpf = scanner.next();
+
+                // Remove caracteres não numéricos do CPF
+                cpf = cpf.replaceAll("\\D", "");
+
+                // Formata o CPF com a máscara
+                cpf = cpf.replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
+
+                Pessoa pessoa = new Pessoa(nome, idade, cpf);
                 pessoas.add(pessoa);
 
                 System.out.println("Pessoa cadastrada com sucesso!\n");
@@ -37,6 +46,7 @@ public class CadastroPessoas {
                     for (Pessoa pessoa : pessoas) {
                         System.out.println("Nome: " + pessoa.nome());
                         System.out.println("Idade: " + pessoa.idade());
+                        System.out.println("CPF: " + pessoa.cpf());
                         System.out.println("-----------------------");
                     }
                     System.out.println();
